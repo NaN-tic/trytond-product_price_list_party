@@ -15,7 +15,8 @@ class PriceList:
             pattern=None):
         if pattern is None:
             pattern = {}
-        pattern['party'] = party.id
+        if party:
+            pattern['party'] = party.id
         return super(PriceList, self).compute(party, product, unit_price,
             quantity, uom, pattern)
 
