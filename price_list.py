@@ -10,14 +10,12 @@ __all__ = ['PriceList', 'PriceListLine']
 class PriceList(metaclass=PoolMeta):
     __name__ = 'product.price_list'
 
-    def compute(self, party, product, unit_price, quantity, uom,
-            pattern=None):
+    def compute(self, product, quantity, uom, pattern=None):
         if pattern is None:
             pattern = {}
         if party:
             pattern['party'] = party.id
-        return super(PriceList, self).compute(party, product, unit_price,
-            quantity, uom, pattern)
+        return super(PriceList, self).compute(product, quantity, uom, pattern)
 
 
 class PriceListLine(metaclass=PoolMeta):
