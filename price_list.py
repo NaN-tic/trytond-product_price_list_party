@@ -3,19 +3,20 @@
 # the full copyright notices and license terms.
 from trytond.model import fields
 from trytond.pool import PoolMeta
-
-__all__ = ['PriceList', 'PriceListLine']
+from trytond.transaction import Transaction
 
 
 class PriceList(metaclass=PoolMeta):
     __name__ = 'product.price_list'
 
     def compute(self, product, quantity, uom, pattern=None):
+        context = Transaction().context
+
         if pattern is None:
             pattern = {}
-        if party:
-            pattern['party'] = party.id
-        return super(PriceList, self).compute(product, quantity, uom, pattern)
+        # sale module add customer in search_context product
+        pattern['party'] = context.get('customer') or context.get('party')
+        return super().compute(product, quantity, uom, pattern)
 
 
 class PriceListLine(metaclass=PoolMeta):
